@@ -3,7 +3,6 @@ all:
 	make largest
 	make 2largest
 	make length
-	make 2length
 
 test1: test1.s
 	gcc -o test1 test1.s
@@ -17,13 +16,10 @@ largest: largest.s
 length: length.s
 	gcc -o length length.s
 
-2length: 2length.s
-	gcc -o 2length 2length.s
-
 clean:
 	$(RM) test1
 	$(RM) largest
 	$(RM) 2largest
 	$(RM) length
-	$(RM) 2length
+
 
