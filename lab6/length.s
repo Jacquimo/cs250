@@ -45,6 +45,7 @@ endloop:
 break3:	bl printf // print the output
 	
 	// Return to caller function
+	mov r0, #0
 	mov sp, fp
 	pop {fp, lr}
 	bx lr
