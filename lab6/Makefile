@@ -2,6 +2,7 @@ all:
 	make largest
 	make 2largest
 	make length
+	make sumarray
 
 largest: largest.s
 	gcc -o largest largest.s
@@ -12,9 +13,13 @@ largest: largest.s
 length: length.s
 	gcc -o length length.s
 
+sumarray: sumarray.s
+	gcc -o sumarray sumarray.s
+
 clean:
 	$(RM) largest
 	$(RM) 2largest
 	$(RM) length
+	$(RM) sumarray
 
 
