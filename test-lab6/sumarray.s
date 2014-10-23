@@ -2,7 +2,7 @@
 	.global main
 main:
 	// Save return variables
-	push {fp, lr}
+	push {r4-r9, fp, lr}
 	mov fp, sp
 
 	sub sp, sp, #20 // allocate 5 locals on the stack
@@ -38,7 +38,7 @@ main:
 	// Return to caller
 	mov r0, #0
 	mov sp, fp
-	pop {fp, lr}
+	pop {r4-r9, fp, lr}
 	bx lr
 
 
