@@ -43,6 +43,7 @@ main:
 	movls r1, r2 /* if r1 < r2, move r2 ro r1 so that r2 gets printed */
 	bl printf
 
+	mov r0, #0
 	ldmfd sp!, {fp, pc} /* pop return information from stack */
 	bx lr /* return to the calling function */
 
