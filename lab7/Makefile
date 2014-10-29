@@ -9,3 +9,4 @@ arm: volume.s
 clean: 
 	rm -r c
 	rm -r arm
+
