@@ -66,8 +66,32 @@ loop:
 	bl fprintf
 
 	// Light the appropriate LED's based on the reading
-	/*ldr r0, [fp, #-8] // load adjusted reading from 2nd stack var
-	cmp r0*/
+	ldr r4, [fp, #-8] // load adjusted reading from 2nd stack var
+
+	// 4th LED
+	mov r0, #28
+	mov r1, #0
+	cmp r4, #75
+	movgt r1, #1
+	bl digitalWrite
+	// 3rd LED
+	mov r0, #25
+	mov r1, #0
+	cmp r4, #50
+	movgt r1, #1
+	bl digitalWrite
+	// 2nd LED
+	mov r0, #3
+	mov r1, #0
+	cmp r4, #25
+	movgt r1, #1
+	bl digitalWrite
+	// 1st LED
+	mov r0, #29
+	mov r1, #0
+	cmp r4, #0
+	movgt r1, #1
+	bl digitalWrite
 	
 	// Delay by 100 ms before reading again
 	mov r0, #100
@@ -92,5 +116,5 @@ ret_error:
 
 
 	.section	.rodata
-printfmt:	.asciz "%d\n"
+printfmt:	.asciz "%d\n" 
 	
