@@ -96,15 +96,18 @@ void store(struct array_info *array, int row_index, int column_index, float valu
   /* Store the "value" to the location (row_index, column_index) of the array whose details are in struct pointer *array */
   /* Assume row-major order if "order"=0 and column-major order if "order"=1 */
 
-
+  int rows = array->rows;
+  int cols = array->columns;
+  char *matrix = array->base_pointer;
+  int index = 0;
 
   if (array->order == 0) { // if the array is row-major order
-
-  }
+    int index = row_index * cols + column_index; }
   else { // the array is column-major order
+    int index = column_index * rows + row_index; }
 
-  }
 
+  ((float*)matrix)[index] = value;
 }
 
 float fetch(struct array_info *array, int row_index, int column_index)
