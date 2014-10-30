@@ -116,7 +116,17 @@ float fetch(struct array_info *array, int row_index, int column_index)
   /* Assume row-major order if "order"=0 and column-major order if "order"=1 */
   /* Return the fetched value */
 
-  return 0;
+  int rows = array->rows;
+  int cols = array->columns;
+  char *matrix = array->base_pointer;
+  int index = 0;
+
+  if (array->order == 0) { // if the array is row-major order
+    int index = row_index * cols + column_index; }
+  else { // the array is column-major order
+    int index = column_index * rows + row_index; }
+
+  return ((float*)matrix)[index];
 }
 
 double calc_time_to_read(struct array_info* array)
