@@ -138,6 +138,16 @@ double calc_time_to_read(struct array_info* array)
   /* Fetch back the whole array in the order 10, 20, 30, 40, 50, 60 assuming the 2x3 array given above irrespective of the order */
   /* Do not print the values, just fetch them and keep discarding. */
   /* We just need to evaluate the time to read from memory, not verifying the correctness of the content */
+
+  if (array->order == 0) {
+    for (int i = 0; i < array->columns; ++i) {
+      
+    }
+  }
+  else {
+
+  }
+
   end = clock();
   return (double)(end - begin)/CLOCKS_PER_SEC;
 }
