@@ -5,6 +5,7 @@
 
 #define MAX_ROWS 5000
 #define MAX_COLUMNS 5000
+#define null NULL
 
 struct array_info
 {
@@ -12,7 +13,7 @@ struct array_info
   int columns;
   int order;
   char *base_pointer; /* pointer to array of bytes. In this array, float numbers will be stored (4 bytes each) */
-};
+} typedef a_info ;
 
 struct array_info* init(int, int, int);
 void store(struct array_info*, int, int, float);
@@ -72,6 +73,47 @@ struct array_info* init(int rows, int columns, int order)
   /* Make sure the size is within 1 to MAX_ROWS and 1 to MAX_COLUMNS specified in main.c. If not return null pointer */
   /* Initialize the 2D array to the all zeroes (0.0) */
   /* Assign suitable values to all the elements of the structure and return the struct pointer */
+
+
+
+  // If row or column numbers are invalid, return NULL
+  if (rows > MAX_ROWS || columns > MAX_COLUMNS)
+    return null;
+
+  // Allocate memory for struct and initialize variables
+  a_info *array_info = calloc(1, sizeof(a_info));
+  array_info->rows = rows;
+  array_info->columns = columns;
+  array_info->order = order;
+
+  return array_info;
 }
 
+void store(struct array_info *array, int row_index, int column_index, float value)
+{
+  /* Store the "value" to the location (row_index, column_index) of the array whose details are in struct pointer *array */
+  /* Assume row-major order if "order"=0 and column-major order if "order"=1 */
+}
+
+float fetch(struct array_info *array, int row_index, int column_index)
+{ 
+  /* Fetch the value from the location (row_index, column_index) of the array whose details are in struct pointer *array */
+  /* Assume row-major order if "order"=0 and column-major order if "order"=1 */
+  /* Return the fetched value */
+
+  return 0;
+}
+
+double calc_time_to_read(struct array_info* array)
+{
+  clock_t begin, end;
+  long int i,j;
+  float value;
+  begin = clock();
+  /* Fetch back the whole array in the order 10, 20, 30, 40, 50, 60 assuming the 2x3 array given above irrespective of the order */
+  /* Do not print the values, just fetch them and keep discarding. */
+  /* We just need to evaluate the time to read from memory, not verifying the correctness of the content */
+  end = clock();
+  return (double)(end - begin)/CLOCKS_PER_SEC;
+}
 
