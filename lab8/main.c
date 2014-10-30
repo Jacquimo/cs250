@@ -85,6 +85,8 @@ struct array_info* init(int rows, int columns, int order)
   array_info->rows = rows;
   array_info->columns = columns;
   array_info->order = order;
+  // Each item in array is made of 4 bytes, so multiply by 4
+  array_info->base_pointer = calloc(4 * rows * columns , sizeof(byte));
 
   return array_info;
 }
