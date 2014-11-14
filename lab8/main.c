@@ -139,15 +139,23 @@ double calc_time_to_read(struct array_info* array)
   /* Do not print the values, just fetch them and keep discarding. */
   /* We just need to evaluate the time to read from memory, not verifying the correctness of the content */
 
+  int rows = array->rows, cols = array->columns;
+  float fetched = 0;
 
-  /*if (array->order == 0) {
-    for (int i = 0; i < array->columns; ++i) {
-      
+  if (array->order == 0) { // loop over in row-major order
+    for (i = 0; i < rows; ++i) {
+      for (j = 0; j < cols; ++j) {
+	fetched = fetch(array, i, j);
+      }
     }
   }
-  else {
-
-  }*/
+  else { // loop over in column-major order
+    for (i = 0; i < cols; ++i) {
+      for (j = 0; j < rows; ++j) {
+	fetched = fetch(array, j, i);
+      }
+    }
+  }
 
 
 
