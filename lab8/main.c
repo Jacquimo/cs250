@@ -139,14 +139,23 @@ double calc_time_to_read(struct array_info* array)
   /* Do not print the values, just fetch them and keep discarding. */
   /* We just need to evaluate the time to read from memory, not verifying the correctness of the content */
 
+<<<<<<< HEAD
   /*if (array->order == 0) {
+=======
+  if (array->order == 0) {
+>>>>>>> ac68224315a1ee7cb85515266eca2f41e9023753
     for (int i = 0; i < array->columns; ++i) {
       
     }
   }
   else {
 
+<<<<<<< HEAD
   }*/
+=======
+  }
+
+>>>>>>> ac68224315a1ee7cb85515266eca2f41e9023753
   end = clock();
   return (double)(end - begin)/CLOCKS_PER_SEC;
 }
