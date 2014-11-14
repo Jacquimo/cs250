@@ -102,9 +102,9 @@ void store(struct array_info *array, int row_index, int column_index, float valu
   int index = 0;
 
   if (array->order == 0) { // if the array is row-major order
-    int index = row_index * cols + column_index; }
+    index = row_index * cols + column_index; }
   else { // the array is column-major order
-    int index = column_index * rows + row_index; }
+    index = column_index * rows + row_index; }
 
 
   ((float*)matrix)[index] = value;
@@ -122,9 +122,9 @@ float fetch(struct array_info *array, int row_index, int column_index)
   int index = 0;
 
   if (array->order == 0) { // if the array is row-major order
-    int index = row_index * cols + column_index; }
+    index = row_index * cols + column_index; }
   else { // the array is column-major order
-    int index = column_index * rows + row_index; }
+    index = column_index * rows + row_index; }
 
   return ((float*)matrix)[index];
 }
