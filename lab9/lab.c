@@ -41,6 +41,11 @@ char *wp;
 int write_buf_size;
 int out;
 
+char read_buf[MAX_BUFFER];
+char *rp;
+int read_buf_size;
+int read_count;
+
 
 
 
@@ -204,6 +209,10 @@ int myreadc(void)
   /* Use read() system call to read a character from text file(file descriptor is 'fd_read') */
   /* if read() indicates end-of-file, return -1 to the caller. */ 
   /* Otherwise, return the character that was read in the low-order byte of the integer (be careful to avoid sign extension). */
+
+  if (!read(fd_read, write_buf, 1))
+    return -1;
+  return *write_buf;
 }
 
 /* Declare a global array of MAX_BUFFER characters named "read_buf" that will server as an input buffer */
@@ -218,6 +227,12 @@ void myreadbufsetup(int n)
 {
   /* Verify that n is a positive integer less than or equal to MAX_BUFFER, and store n in global variable read_buf_size. */
   /* Set read_count to zero */
+
+  if (n < 0 || n > MAX_BUFFER)
+    exit(1);
+
+  read_buf_size = n;
+  read_count = 0;
 }
 
 int mygetc()
@@ -230,6 +245,17 @@ int mygetc()
   /*   from the buffer in the low-order byte of an integer (be careful to avoid sign extension). */
 
   /* Note that this function will be called multiple times before the whole buffer is emptied. */
+
+  if (read_count <= 0)
+    read_count = read(fd_read, read_buf, read_buf_size);
+
+  rp = read_buf;
+  if (!read_count)
+    return -1;
+
+  char ret = *(rp++);
+  --read_count;
+  return ret;
 }
 
 
