@@ -33,6 +33,14 @@ int fd_write = 1;
 /* Declare global variables for read operations here */
 int fd_read;
 
+
+
+char write_buf[MAX_BUFFER];
+char wp*;
+int write_buf_size;
+
+
+
 /* Main function starts */
 int main()
 {
@@ -137,6 +145,7 @@ int main()
 void mywritec(char ch)
 {
   /* Use the system call write() to write char 'ch' to standard output (file descriptor 1) */
+  write(1, &ch, 1);
 }
 
 /* Use the C preprocessor to define constant MAX_BUFFER to be 1048576.  The constant will be */
@@ -153,6 +162,12 @@ void mywritebufsetup(int n)
   /* verify that n is a positive integer less than or equal to MAX_BUFFER, and store n */
   /* in global variable write_buf_size */
   /* Initialize wp to point to the first byte of buffer */
+
+  if (n < 0 || n > MAX_BUFFER)
+    exit(1);
+
+  write_buf_size = n;
+  wp = write_buf;
 }
 
 void myputc(char ch)
@@ -161,12 +176,21 @@ void myputc(char ch)
   /* If the buffer is full (contains write_buf_size characters), write the entire buffer to standard */
   /*    output using the write() system call and reset wp to the first location of the buffer */
   /* Note that myputc() will be called multiple times before the buffer is written out */
+
+  wp++* = ch;
+  if (wp - write_buf >= write_buf_size) {
+    write(1, write_buf, write_buf_size);
+    wp = write_buf;
+  }
 }
 
 void mywriteflush(void)
 {
   /* Note: this function will be called after all calls to myputc() have been made */
   /* if any characters remain in the write buffer, write them to standard output */
+
+  if (wp - write_buf > 0)
+    write(1, write_buf, wp - write_buf);
 }
 
 int myreadc(void)
