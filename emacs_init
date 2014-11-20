@@ -1,0 +1,53 @@
+;; turn off menu bar
+(menu-bar-mode -1)
+
+;; turn on font lock for all buffers
+(global-font-lock-mode)
+(global-font-lock-mode 1)
+(global-font-lock-mode t)
+
+;; eliminate long "yes" or "no" prompts
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; 'M-w' copies the current line when the region is not active, and 'C-w'
+(put 'kill-ring-save 'interactive-form
+     '(interactive
+       (if (use-region-p)
+	   (list (region-beginning) (region-end))
+	 (list (line-beginning-position) (line-beginning-position 2)))))
+
+;; Turn on line number mode
+(global-linum-mode t)
+
+;; Don't want any startup message
+(setq inhibit-startup-message t)
+
+;; Don't want any backup files
+(setq make-backup-files nil)
+
+;; Highlight search object
+(setq search-highlight           t)
+
+;; Highlight query object
+(setq query-replace-highlight    t)
+
+;; Keep mouse high-lightening 
+(setq mouse-sel-retain-highlight t)
+
+;; Copy
+(global-set-key [f5] 'copy-region-as-kill)
+
+;; Cut
+(global-set-key [f6] 'kill-region)
+
+;; Paste 
+(global-set-key [f7] 'yank)
+
+;; [Home]
+(global-set-key [Home]  'beginning-of-buffer)
+
+;; Window Splitting
+(global-set-key [f2] 'split-window-vertically)
+(global-set-key [f1] 'remove-split) 
+
+
