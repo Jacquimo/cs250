@@ -35,15 +35,20 @@ int fd_read;
 
 
 
+// My defined global variables
 char write_buf[MAX_BUFFER];
 char *wp;
 int write_buf_size;
+int out;
+
 
 
 
 /* Main function starts */
 int main()
 {
+  out = open("./output.txt", O_RDWR);
+
   clock_t begin, end;
   int option, n, temp;
   const char *a="Writing byte by byte\n";
@@ -137,7 +142,8 @@ int main()
 	  break;
 
 	default:
-	  return 0;
+	  return close(out) < 0 ? 1 : 0;
+	  //return 0;
         }
     }
 }
@@ -145,7 +151,7 @@ int main()
 void mywritec(char ch)
 {
   /* Use the system call write() to write char 'ch' to standard output (file descriptor 1) */
-  write(1, &ch, 1);
+  write(out, &ch, 1);
 }
 
 /* Use the C preprocessor to define constant MAX_BUFFER to be 1048576.  The constant will be */
@@ -179,7 +185,7 @@ void myputc(char ch)
 
   *(wp++) = ch;
   if (wp - write_buf >= write_buf_size) {
-    write(1, write_buf, write_buf_size);
+    write(out, write_buf, write_buf_size);
     wp = write_buf;
   }
 }
@@ -190,7 +196,7 @@ void mywriteflush(void)
   /* if any characters remain in the write buffer, write them to standard output */
 
   if (wp - write_buf > 0)
-    write(1, write_buf, wp - write_buf);
+    write(out, write_buf, wp - write_buf);
 }
 
 int myreadc(void)
