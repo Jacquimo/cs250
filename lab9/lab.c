@@ -46,6 +46,9 @@ char *rp;
 int read_buf_size;
 int read_count;
 
+int iterations = 1;
+double average = 0.0;
+
 
 
 
@@ -63,6 +66,11 @@ int main()
 
   while(1)
     {
+      printf("\n Number of Iterations: ");
+      scanf("%d", &iterations);
+      if (iterations < 1) return close(out) < 0 ? 1 : 0;
+
+
       printf("\n 1 - Write without buffering \n 2 - Write with buffering");
       printf("\n 3 - Read without buffering \n 4 - Read with buffering");
       printf(("\n 5 - Exit \n Enter the option: "));
@@ -70,29 +78,44 @@ int main()
       switch(option)
         {
 	case 1: /* Write without buffer */
-	  begin = clock();
-	  for (i=0;i<bytes_to_write;i++)
-	    {
-	      ch = a[i%strlen(a)];
-	      mywritec(ch);
-	    }
-	  end = clock();
-	  printf("\n Time to write without buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
+	  for (int j = 0; j < iterations; ++j) {
+	    begin = clock();
+	    for (i=0;i<bytes_to_write;i++)
+	      {
+		ch = a[i%strlen(a)];
+		mywritec(ch);
+	      }
+	    end = clock();
+	    printf(" Time to write without buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
+
+	    average += (double)(end - begin)/CLOCKS_PER_SEC;
+	  }
+	  printf("\n Average time w/ %d iterations: %f secs\n", iterations, (double)(average / iterations));
+	  average = 0.0;
 	  break;
 
 	case 2:  /* Write with buffer */
 	  printf("\n Enter the buffer size in bytes: ");
 	  scanf("%d", &n);
-	  mywritebufsetup(n);
-	  begin = clock();
-	  for (i=0;i<bytes_to_write;i++)
-	    {
-	      ch = b[i%strlen(b)];
-	      myputc(ch);
-	    }
-	  mywriteflush();
-	  end = clock();
-	  printf("\n Time to write with buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
+
+	  printf("\n");
+	  for (int j = 0; j < iterations; ++j) {
+
+	    mywritebufsetup(n);
+	    begin = clock();
+	    for (i=0;i<bytes_to_write;i++)
+	      {
+		ch = b[i%strlen(b)];
+		myputc(ch);
+	      }
+	    mywriteflush();
+	    end = clock();
+	    printf(" Time to write with buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
+
+	    average += (double)(end - begin)/CLOCKS_PER_SEC;
+	  }
+	  printf("\n Average time w/ %d iterations: %f secs\n", iterations, (double)(average / iterations));
+	  average = 0.0;
 	  break;
 
 	case 3:  /* Read without buffer */
@@ -102,21 +125,30 @@ int main()
 	      printf("\n Error opening the readable file \n");
 	      return 1;
 	    }
-	  begin = clock();
-	  for (i=0;i<bytes_to_read;i++)
-	    {  /* you may need to modify this slightly to print the character received and also check for end of file */
-	      if(myreadc() == -1)
-		{
-		  printf("\n End of file \n");
-		  break;
-		}
-	    }
-	  end = clock();
+
+	  for (int j = 0; j < iterations; ++j) {
+	    begin = clock();
+	    for (i=0;i<bytes_to_read;i++)
+	      {  /* you may need to modify this slightly to print the character received and also check for end of file */
+		if(myreadc() == -1)
+		  {
+		    printf("\n End of file \n");
+		    break;
+		  }
+	      }
+	    end = clock();
+
+	    printf("\n Time to read without buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
+
+	    average += (double)(end - begin)/CLOCKS_PER_SEC;
+	  }
+	  printf("\n Average time w/ %d iterations: %f secs\n", iterations, (double)(average / iterations));
+	  average = 0.0;
+
 	  if(close(fd_read))
 	    {
 	      printf("\n Error while closing the file \n ");
 	    }
-	  printf("\n Time to read without buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
 	  break;
 
 	case 4:  /* Read with buffer */
@@ -129,21 +161,30 @@ int main()
 	      printf("\n Error opening the readable file \n");
 	      return 1;
 	    }
-	  begin = clock();
-	  for (i=0;i<bytes_to_read;i++)
-	    { /* you may need to modify this slightly to print the character received and also check for end of file */
-	      if(mygetc() == -1)
-		{
-		  printf("\n End of file \n");
-		  break;
-		}
-	    }
-	  end = clock();
+
+	  for (int k = 0; k < iterations; ++k) {
+	    begin = clock();
+	    for (i=0;i<bytes_to_read;i++)
+	      { /* you may need to modify this slightly to print the character received and also check for end of file */
+		if(mygetc() == -1)
+		  {
+		    //printf("\n End of file \n");
+		    break;
+		  }
+	      }
+	    end = clock();
+	    printf(" Time to read with buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
+
+
+	    average += (double)(end - begin)/CLOCKS_PER_SEC;
+	  }
+	  printf("\n Average time w/ %d iterations: %f secs\n", iterations, (double)(average / iterations));
+	  average = 0.0;
+
 	  if(close(fd_read))
 	    {
 	      printf("\n Error while closing the file \n ");
 	    }
-	  printf("\n Time to read with buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
 	  break;
 
 	default:
