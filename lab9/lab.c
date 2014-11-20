@@ -9,7 +9,8 @@
 #include <string.h>
 
 #define READABLE_FILE "file_to_read.txt" /* File to be read during read operations */
-#define BYTES_TO_READ_WRITE 819200 /* 800 KB */
+//#define BYTES_TO_READ_WRITE 819200 /* 800 KB */
+#define BYTES_TO_READ_WRITE 1048576
 #define MAX_BUFFER  1048576 /* 1 MB*/
 
 /* Function for write without buffer */
@@ -85,6 +86,9 @@ int main()
 		mywritec(ch);
 	      }
 	    end = clock();
+
+	    printf(" Bytes written = %d\t", i);
+
 	    printf(" Time to write without buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
 
 	    average += (double)(end - begin)/CLOCKS_PER_SEC;
@@ -109,6 +113,9 @@ int main()
 	      }
 	    mywriteflush();
 	    end = clock();
+
+	    printf(" Bytes written = %d\t", i);
+
 	    printf(" Time to write with buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
 
 	    average += (double)(end - begin)/CLOCKS_PER_SEC;
@@ -137,6 +144,8 @@ int main()
 		  }
 	      }
 	    end = clock();
+
+	    printf(" Bytes read = %d\t", i);
 
 	    printf(" Time to read without buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
 	    if(close(fd_read))
@@ -174,6 +183,9 @@ int main()
 		  }
 	      }
 	    end = clock();
+
+	    printf(" Bytes read = %d\t", i);
+
 	    printf(" Time to read with buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
 	    if(close(fd_read))
 	      {

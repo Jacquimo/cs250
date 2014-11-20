@@ -2,3 +2,6 @@
 *.*~
 .metadata
 \#*
+*output.txt
+*file_to_read.txt
+
