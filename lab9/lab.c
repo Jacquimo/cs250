@@ -64,13 +64,12 @@ int main()
   unsigned long i, bytes_to_write = BYTES_TO_READ_WRITE, bytes_to_read = BYTES_TO_READ_WRITE;
   char ch;
 
+  printf("\n Number of Iterations: ");
+  scanf("%d", &iterations);
+  if (iterations < 1) return close(out) < 0 ? 1 : 0;
+
   while(1)
     {
-      printf("\n Number of Iterations: ");
-      scanf("%d", &iterations);
-      if (iterations < 1) return close(out) < 0 ? 1 : 0;
-
-
       printf("\n 1 - Write without buffering \n 2 - Write with buffering");
       printf("\n 3 - Read without buffering \n 4 - Read with buffering");
       printf(("\n 5 - Exit \n Enter the option: "));
@@ -119,50 +118,52 @@ int main()
 	  break;
 
 	case 3:  /* Read without buffer */
-	  fd_read = open(READABLE_FILE, O_RDONLY);
-	  if(fd_read < 0)
-	    {
-	      printf("\n Error opening the readable file \n");
-	      return 1;
-	    }
-
 	  for (int j = 0; j < iterations; ++j) {
+
+	    fd_read = open(READABLE_FILE, O_RDONLY);
+	    if(fd_read < 0)
+	      {
+		printf("\n Error opening the readable file \n");
+		return 1;
+	      }
+
 	    begin = clock();
 	    for (i=0;i<bytes_to_read;i++)
 	      {  /* you may need to modify this slightly to print the character received and also check for end of file */
 		if(myreadc() == -1)
 		  {
-		    printf("\n End of file \n");
+		    //printf("\n End of file \n");
 		    break;
 		  }
 	      }
 	    end = clock();
 
-	    printf("\n Time to read without buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
+	    printf(" Time to read without buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
+	    if(close(fd_read))
+	      {
+		printf("\n Error while closing the file \n ");
+	      }
 
 	    average += (double)(end - begin)/CLOCKS_PER_SEC;
 	  }
 	  printf("\n Average time w/ %d iterations: %f secs\n", iterations, (double)(average / iterations));
 	  average = 0.0;
 
-	  if(close(fd_read))
-	    {
-	      printf("\n Error while closing the file \n ");
-	    }
 	  break;
 
 	case 4:  /* Read with buffer */
 	  printf("\n Enter the buffer size in bytes: ");
 	  scanf("%d", &n);
-	  myreadbufsetup(n);
-	  fd_read = open(READABLE_FILE, O_RDONLY);
-	  if(fd_read < 0)
-	    {
-	      printf("\n Error opening the readable file \n");
-	      return 1;
-	    }
 
 	  for (int k = 0; k < iterations; ++k) {
+	    myreadbufsetup(n);
+	    fd_read = open(READABLE_FILE, O_RDONLY);
+	    if(fd_read < 0)
+	      {
+		printf("\n Error opening the readable file \n");
+		return 1;
+	      }
+
 	    begin = clock();
 	    for (i=0;i<bytes_to_read;i++)
 	      { /* you may need to modify this slightly to print the character received and also check for end of file */
@@ -174,17 +175,16 @@ int main()
 	      }
 	    end = clock();
 	    printf(" Time to read with buffering: %f secs\n",(double)(end - begin)/CLOCKS_PER_SEC);
-
+	    if(close(fd_read))
+	      {
+		printf("\n Error while closing the file \n ");
+	      }
 
 	    average += (double)(end - begin)/CLOCKS_PER_SEC;
 	  }
 	  printf("\n Average time w/ %d iterations: %f secs\n", iterations, (double)(average / iterations));
 	  average = 0.0;
 
-	  if(close(fd_read))
-	    {
-	      printf("\n Error while closing the file \n ");
-	    }
 	  break;
 
 	default:
@@ -251,7 +251,7 @@ int myreadc(void)
   /* if read() indicates end-of-file, return -1 to the caller. */ 
   /* Otherwise, return the character that was read in the low-order byte of the integer (be careful to avoid sign extension). */
 
-  if (!read(fd_read, write_buf, 1))
+  if (read(fd_read, write_buf, 1) < 1)
     return -1;
   return *write_buf;
 }
