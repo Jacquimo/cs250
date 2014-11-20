@@ -79,6 +79,7 @@ alias ebc='e $bc'
 alias em='e main.c'
 alias el='e lab.c'
 alias egc='e $gcfg'
+alias egi='e "$(g rev-parse --show-toplevel)"/.gitignore'
 
 
 # ------------
