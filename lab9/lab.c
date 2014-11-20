@@ -36,7 +36,7 @@ int fd_read;
 
 
 char write_buf[MAX_BUFFER];
-char wp*;
+char *wp;
 int write_buf_size;
 
 
@@ -177,7 +177,7 @@ void myputc(char ch)
   /*    output using the write() system call and reset wp to the first location of the buffer */
   /* Note that myputc() will be called multiple times before the buffer is written out */
 
-  wp++* = ch;
+  *(wp++) = ch;
   if (wp - write_buf >= write_buf_size) {
     write(1, write_buf, write_buf_size);
     wp = write_buf;
