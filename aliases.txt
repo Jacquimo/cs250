@@ -1,0 +1,118 @@
+# Global Bash Aliases File
+# this file should only be accessed/changed with root access
+
+# ------------------
+# Relevant Locations
+# ------------------
+export ba="/etc/bash.bash_aliases "
+export br="/etc/bash.bashrc  "
+export bc="/etc/bash_completion  "
+export bl="/etc/skel/.bash_logout "
+export pi="/home/pi"
+export lore="lore.cs.purdue.edu"
+export hm="$HOME"
+export pr="/etc/profile"
+export gcfg="~/.gitconfig"
+
+
+# ---------------
+# Command Aliases
+# ---------------
+alias s='sudo'
+alias src='source'
+alias e='emacs'
+alias logout='exit'
+alias lgout='exit'
+alias display='cat'
+alias ds='display'
+alias l=' less'
+alias dnm='dirname'
+# alias diff='diff '
+alias clr='clear'
+alias mk='make'
+alias close='s shutdown -h now'
+alias p='pwd'
+alias g='git'
+
+
+# ----------
+# LS Aliases
+# ----------
+# ignore backup .~ files in LS command
+# don't explicitly overwrite ls command so I can use the basic version
+alias ls-a='ls -s --color=auto -I "*~" -I "*.*~" -I ".*~"'
+alias la='ls-a -A'
+alias .='ls-a'
+alias .a='la'
+alias .al='.a | l'
+alias .l='. | l'
+
+
+# ------------
+# LESS Aliases
+# ------------
+# aliases that look at files/defined locations and output contents using less
+alias bal='l $ba'
+alias brl='l $br'
+alias bcl='l $bc'
+alias bll='l $bl'
+
+
+# --------------
+# SOURCE Aliases
+# --------------
+# aliases invloving sourcing different config files
+alias sba='src $ba'
+alias sbr='src $br'
+alias sbl='src $bl'
+alias sbc='src $bc'
+
+
+# -------------
+# EMACS Aliases
+# -------------
+# aliases invloving editing different files
+alias eba='e $ba'
+alias ebr='e $br'
+alias ebl='e $bl'
+alias ebc='e $bc'
+alias em='e main.c'
+alias el='e lab.c'
+alias egc='e $gcfg'
+
+
+# ------------
+# MAKE Aliases
+# ------------
+# aliases involving make files
+alias emk='e Makefile'
+alias clean='mk clean'
+alias cln='clean'
+alias mka='mk all'
+
+
+# ------------
+# GIT Aliases
+# ------------
+# These aliases depend on other aliases defined in ~/.gitconfig
+alias gc='g c -m'
+alias ga='g a'
+alias gs='g st'
+alias gps='g p'
+alias gpl='g pull'
+
+
+# ----------
+# CD Aliases
+# ----------
+alias c='cd'
+alias cd..l='c ..; echo ; ls;'
+alias cd..='cd..l'
+alias ..='cd..'
+alias rt='c /'
+# cd into the directory containing the bash configurations
+alias cb='c "$(dnm "$ba")"'
+alias cpi='c $pi'
+
+
+
