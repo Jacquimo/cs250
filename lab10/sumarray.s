@@ -5,5 +5,6 @@ main:
 
 
 
+	mov $0, %rax
 	leave
 	ret 
