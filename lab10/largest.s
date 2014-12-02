@@ -1,7 +1,7 @@
 
 	.globl main
 main:
-	enter $(8 * 2), $0
+	enter $(8 * 2), $0 /* Save caller registers and allocate space on stack for function parameters */
 
 	movq $.readFmt, %rdi /* move the format string into the first parameter location */
 	
